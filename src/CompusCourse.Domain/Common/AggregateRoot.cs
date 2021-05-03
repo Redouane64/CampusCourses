@@ -1,4 +1,4 @@
-﻿namespace CompusCourse.Domain
+namespace CompusCourse.Domain.Common
 {
     /// <summary>
     /// Represents a domain aggregate root
