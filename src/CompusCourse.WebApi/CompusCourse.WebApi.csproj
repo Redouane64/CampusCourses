@@ -5,11 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Groups\" />
+    <Folder Include="Courses\" />
+    <Folder Include="Identity\Infrastructure\" />
+    <Folder Include="Identity\Entities\" />
+    <Folder Include="Identity\Queries\" />
+    <Folder Include="Prototypes\" />
   </ItemGroup>
 
 </Project>
