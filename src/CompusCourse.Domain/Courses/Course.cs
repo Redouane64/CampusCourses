@@ -18,5 +18,10 @@ namespace CompusCourse.Domain.Courses
         /// Course reviews
         /// </summary>
         public ICollection<Review> Reviews { get; set; }
+
+        /// <summary>
+        /// Course notifications
+        /// </summary>
+        public ICollection<Notification> Notifications { get; set; }
     }
 }
