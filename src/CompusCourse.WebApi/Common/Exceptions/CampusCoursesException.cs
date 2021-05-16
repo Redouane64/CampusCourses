@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CompusCourse.WebApi.Common.Exceptions
 {
-    public class Error : Exception
+    public class CampusCoursesException : Exception
     {
-        public Error(string code, int status)
+        public CampusCoursesException(string code, int status)
         {
             Code = code;
             Status = status;
