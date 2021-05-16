@@ -1,3 +1,4 @@
+using CompusCourse.Domain.Common;
 using CompusCourse.Domain.Courses;
 
 using System;
@@ -8,20 +9,15 @@ using System.Threading.Tasks;
 
 namespace CompusCourse.Domain.Identity
 {
-    public interface IUser
+    /// <summary>
+    /// Represent a common user entity contract.
+    /// </summary>
+    public interface IUser : IAggregateRoot
     {
-
-        string Username { get; set; }
 
         string Email { get; set; }
 
         string Avatar { get; set; }
-
-        ICollection<Course> Courses { get; set; }
-
-        ICollection<Notification> Notifications { get; set; }
-
-        ICollection<Review> Reviews { get; set; }
 
     }
 }
