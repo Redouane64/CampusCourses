@@ -8,7 +8,7 @@ namespace CompusCourse.Domain.Groups
     /// <summary>
     /// Represents course group entity
     /// </summary>
-    public sealed class Group : AggregateRoot
+    public sealed class Group : Entity, IAggregateRoot
     {
         /// <summary>
         /// Group name
