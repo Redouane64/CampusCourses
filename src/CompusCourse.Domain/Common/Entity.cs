@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace CompusCourse.Domain.Common
 {
-    /// <summary>
-    /// Represents base domain entity
-    /// </summary>
-    public abstract class Entity
+    public abstract class Entity : IEntity
     {
-        /// <summary>
-        /// Entity primary key
-        /// </summary>
         public virtual string Id { get; protected set; }
     }
 }
