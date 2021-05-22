@@ -49,6 +49,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                 UserName = request.Email,
             };
 
+            /* create user */
             try
             {
                 var createUser = await userManager.CreateAsync(user, request.Password);
@@ -68,6 +69,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                 throw new CampusCoursesException(CampusCoursesErrorCodes.InternalServerError, 500);
             }
 
+            /* assign role to user */
             try
             {
                 var addToRole = await userManager.AddToRoleAsync(user, Roles.Administrator);
@@ -88,6 +90,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                 throw new CampusCoursesException(CampusCoursesErrorCodes.InternalServerError, 500);
             }
 
+            /* create user claims */
             try
             {
                 var claims = new[]
@@ -104,6 +107,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                     throw new AccountException(IdentityErrorCodes.CannotCreateAccount, 500, new[] { "Unable to create user account." });
                 }
 
+                /* generate JWt token */
                 var tokens = await tokenService.GenerateToken(claims, user);
 
                 return new AuthenticationViewModel()
@@ -113,6 +117,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                     Email = user.Email,
                     // TODO: placeholder needs to updated to use user custom avatar
                     Avatar = "https://via.placeholder.com/150",
+                    Role = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).FirstOrDefault()
                 };
             }
             catch

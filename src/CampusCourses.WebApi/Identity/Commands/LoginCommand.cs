@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,6 +64,7 @@ namespace CampusCourses.WebApi.Identity.Commands
                 Email = user.Email,
                 // TODO: placeholder needs to updated to use user custom avatar
                 Avatar = "https://via.placeholder.com/150",
+                Role = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).FirstOrDefault()
             };
         }
     }
