@@ -4,11 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+
 using CampusCourses.Domain.Identity;
-using CampusCourses.WebApi.Identity.Constants;
-using CampusCourses.WebApi.Identity.Exceptions;
 using CampusCourses.WebApi.Identity.Extensions;
 using CampusCourses.WebApi.Identity.Infrastructure;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -72,7 +72,7 @@ namespace CampusCourses.WebApi.Identity.Services
 
             if (!isValid)
             {
-                throw new AccountException(IdentityErrorCodes.InvalidRefreshToken, 401, null);
+                return (null, null);
             }
 
             return await this.GenerateToken(claims, user);

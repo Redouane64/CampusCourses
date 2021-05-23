@@ -2,17 +2,22 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+
+using CampusCourses.WebApi.Common.ViewModels;
 using CampusCourses.WebApi.Identity.Constants;
 using CampusCourses.WebApi.Identity.Entities;
-using CampusCourses.WebApi.Identity.Exceptions;
 using CampusCourses.WebApi.Identity.Models;
 using CampusCourses.WebApi.Identity.Services;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Identity;
+
+using OneOf;
 
 namespace CampusCourses.WebApi.Identity.Commands
 {
-    public class LoginCommand : IRequest<AuthenticationViewModel>
+    public class LoginCommand : IRequest<OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
         public LoginCommand(string username, string password)
         {
@@ -25,7 +30,7 @@ namespace CampusCourses.WebApi.Identity.Commands
         public string Password { get; }
     }
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationViewModel>
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
 
         private readonly JwtTokenService<CampusCourseUser> tokenService;
@@ -37,20 +42,20 @@ namespace CampusCourses.WebApi.Identity.Commands
             this.userManager = userManager;
         }
 
-        public async Task<AuthenticationViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<OneOf<AuthenticationViewModel, ErrorViewModel>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var user = await this.userManager.FindByEmailAsync(request.Username);
 
             if (user is null)
             {
-                throw new AccountException(IdentityErrorCodes.InvalidCredentials, 401, null);
+                return new ErrorViewModel(IdentityErrorCodes.InvalidCredentials, 401);
             }
 
             var isValidPassword = await this.userManager.CheckPasswordAsync(user, request.Password);
 
             if (!isValidPassword)
             {
-                throw new AccountException(IdentityErrorCodes.InvalidCredentials, 401, null);
+                return new ErrorViewModel(IdentityErrorCodes.InvalidCredentials, 401);
             }
 
             var claims = await userManager.GetClaimsAsync(user);

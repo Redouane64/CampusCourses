@@ -4,19 +4,22 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-using CampusCourses.WebApi.Common.Exceptions;
-using CampusCourses.WebApi.Constants;
+using CampusCourses.WebApi.Common.Constants;
+using CampusCourses.WebApi.Common.ViewModels;
 using CampusCourses.WebApi.Identity.Constants;
 using CampusCourses.WebApi.Identity.Entities;
-using CampusCourses.WebApi.Identity.Exceptions;
 using CampusCourses.WebApi.Identity.Models;
 using CampusCourses.WebApi.Identity.Services;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Identity;
+
+using OneOf;
 
 namespace CampusCourses.WebApi.Identity.Commands
 {
-    public class RegisterCommand : IRequest<AuthenticationViewModel>
+    public class RegisterCommand : IRequest<OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
 
         public RegisterCommand(string username, string password)
@@ -30,7 +33,7 @@ namespace CampusCourses.WebApi.Identity.Commands
         public string Password { get; }
     }
 
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthenticationViewModel>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
         private readonly JwtTokenService<CampusCourseUser> tokenService;
         private readonly UserManager<CampusCourseUser> userManager;
@@ -41,7 +44,7 @@ namespace CampusCourses.WebApi.Identity.Commands
             this.userManager = userManager;
         }
 
-        public async Task<AuthenticationViewModel> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<OneOf<AuthenticationViewModel, ErrorViewModel>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             var user = new CampusCourseUser
             {
@@ -57,16 +60,12 @@ namespace CampusCourses.WebApi.Identity.Commands
                 if (!createUser.Succeeded)
                 {
                     var errors = createUser.Errors.Select(error => error.Description).ToArray();
-                    throw new AccountException(IdentityErrorCodes.CannotCreateAccount, 401, errors);
+                    return new ErrorViewModel(IdentityErrorCodes.CannotCreateAccount, 401, errors);
                 }
-            }
-            catch (AccountException)
-            {
-                throw;
             }
             catch (Exception)
             {
-                throw new CampusCoursesException(CampusCoursesErrorCodes.InternalServerError, 500);
+                return new ErrorViewModel(CampusCoursesErrorCodes.InternalServerError, 500);
             }
 
             /* assign role to user */
@@ -76,18 +75,13 @@ namespace CampusCourses.WebApi.Identity.Commands
 
                 if (!addToRole.Succeeded)
                 {
-                    throw new AccountException(IdentityErrorCodes.CannotCreateAccount, 500, new[] { "Unable to create user account." });
+                    return new ErrorViewModel(IdentityErrorCodes.CannotCreateAccount, 500, new[] { "Unable to create user account." });
                 }
-            }
-            catch(AccountException)
-            {
-                await userManager.DeleteAsync(user);
-                throw;
             }
             catch
             {
                 await userManager.DeleteAsync(user);
-                throw new CampusCoursesException(CampusCoursesErrorCodes.InternalServerError, 500);
+                return new ErrorViewModel(CampusCoursesErrorCodes.InternalServerError, 500);
             }
 
             /* create user claims */
@@ -104,7 +98,7 @@ namespace CampusCourses.WebApi.Identity.Commands
 
                 if (!addClaims.Succeeded)
                 {
-                    throw new AccountException(IdentityErrorCodes.CannotCreateAccount, 500, new[] { "Unable to create user account." });
+                    return new ErrorViewModel(IdentityErrorCodes.CannotCreateAccount, 500, new[] { "Unable to create user account." });
                 }
 
                 /* generate JWt token */
@@ -123,7 +117,7 @@ namespace CampusCourses.WebApi.Identity.Commands
             catch
             {
                 await userManager.DeleteAsync(user);
-                throw new CampusCoursesException(CampusCoursesErrorCodes.InternalServerError, 500);
+                return new ErrorViewModel(CampusCoursesErrorCodes.InternalServerError, 500);
             }
 
         }
