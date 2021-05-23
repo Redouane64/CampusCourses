@@ -1,12 +1,19 @@
+using CampusCourses.WebApi.Common.ViewModels;
 using CampusCourses.WebApi.Extensions;
 using CampusCourses.WebApi.Identity.Extensions;
+using CampusCourses.WebApi.Infrastructure;
+
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+
+using System.Linq;
 
 namespace CampusCourses.WebApi
 {
@@ -26,7 +33,37 @@ namespace CampusCourses.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<JsonExceptionFilter>();
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    ErrorViewModel error = new ErrorViewModel("invalid_request", 401);
+
+                    var actionExecutingContext = context as ActionExecutingContext;
+                    if (context.ModelState.ErrorCount > 0 &&
+                        (actionExecutingContext?.ActionArguments.Count == context.ActionDescriptor.Parameters.Count))
+                    {
+                        var errors = context.ModelState.Select(m => m.Value);
+                        error.Details = error.Details;
+
+                        return new BadRequestObjectResult(error)
+                        {
+                            ContentTypes = { "application/problem+json" },
+                        };
+                    }
+
+                    error.Details = new[] { "One or more validation problem occurred." };
+
+                    return new BadRequestObjectResult(error)
+                    {
+                        ContentTypes = { "application/problem+json" },
+                    };
+                };
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Compus Course API", Version = "v1" });
