@@ -1,9 +1,10 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CampusCourses.WebApi.Constants
+namespace CampusCourses.WebApi.Common.Constants
 {
     public class CampusCoursesErrorCodes
     {
