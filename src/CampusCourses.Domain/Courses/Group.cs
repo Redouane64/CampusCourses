@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using CampusCourses.Domain.Common;
-using CampusCourses.Domain.Prototypes;
 
-namespace CampusCourses.Domain.Groups
+using CampusCourses.Domain.Common;
+
+namespace CampusCourses.Domain.Courses
 {
     /// <summary>
     /// Represents course group entity

@@ -20,12 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Groups\" />
-    <Folder Include="Courses\" />
+    <Folder Include="Courses\Data\" />
     <Folder Include="Identity\Infrastructure\" />
     <Folder Include="Identity\Queries\" />
-    <Folder Include="Data\" />
-    <Folder Include="Prototypes\" />
   </ItemGroup>
 
   <ItemGroup>

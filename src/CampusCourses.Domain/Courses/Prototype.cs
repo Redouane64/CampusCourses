@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-
 using CampusCourses.Domain.Common;
+
+using System.Collections.Generic;
 
 namespace CampusCourses.Domain.Courses
 {
     /// <summary>
-    /// Represents course entity
+    /// Represents course prototype
     /// </summary>
-    public sealed class Course : Entity
+    public class Prototype : Entity
     {
         /// <summary>
         /// Prototype name
@@ -16,7 +16,7 @@ namespace CampusCourses.Domain.Courses
 
         public string Credit { get; set; }
 
-        public Language Language { get; set; }
+        public ICollection<Language> Languages { get; set; }
 
         public string Requirements { get; set; }
 
@@ -27,13 +27,8 @@ namespace CampusCourses.Domain.Courses
         public string Literature { get; set; }
 
         /// <summary>
-        /// Course reviews
+        /// Prototype courses
         /// </summary>
-        public ICollection<Review> Reviews { get; set; }
-
-        /// <summary>
-        /// Course notifications
-        /// </summary>
-        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Course> Courses { get; set; }
     }
 }
