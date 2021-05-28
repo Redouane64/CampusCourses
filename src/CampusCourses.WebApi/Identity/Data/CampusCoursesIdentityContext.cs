@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CampusCourses.WebApi.Identity.Data
 {
-    public class CampusCoursesIdentityContext : IdentityDbContext<CampusCourseUser>
+    public class CampusCoursesIdentityContext : IdentityDbContext<CampusCoursesUser>
     {
         public CampusCoursesIdentityContext(DbContextOptions<CampusCoursesIdentityContext> options)
             : base(options)

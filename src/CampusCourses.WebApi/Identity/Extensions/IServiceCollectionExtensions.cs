@@ -32,7 +32,7 @@ namespace CampusCourses.WebApi.Identity.Extensions
                 options.UseSqlite(configuration.GetConnectionString("localhost"));
             });
 
-            services.AddIdentityCore<CampusCourseUser>(options =>
+            services.AddIdentityCore<CampusCoursesUser>(options =>
             {
                 if (environment.IsDevelopment())
                 {
@@ -46,10 +46,10 @@ namespace CampusCourses.WebApi.Identity.Extensions
                 options.Password.RequireUppercase = false;
             })
             .AddRoles<IdentityRole>()
-            .AddUserManager<UserManager<CampusCourseUser>>()
+            .AddUserManager<UserManager<CampusCoursesUser>>()
             .AddRoleManager<RoleManager<IdentityRole>>()
             .AddEntityFrameworkStores<CampusCoursesIdentityContext>()
-            .AddTokenProvider<JwtRefreshTokenProvider<CampusCourseUser>>(JwtRefreshTokenProvider<CampusCourseUser>.ProviderName);
+            .AddTokenProvider<JwtRefreshTokenProvider<CampusCoursesUser>>(JwtRefreshTokenProvider<CampusCoursesUser>.ProviderName);
 
             // Configure JWT authentication schema
             services.AddAuthentication(options =>
@@ -83,12 +83,12 @@ namespace CampusCourses.WebApi.Identity.Extensions
             services.Configure<JwtRefreshTokenProviderOptions>(options =>
             {
                 options.TokenLifespan = TimeSpan.FromMinutes(configuration.GetValue<double>("JwtTokenParameters:LifeTime") * 2);
-                options.Name = JwtRefreshTokenProvider<CampusCourseUser>.ProviderName;
+                options.Name = JwtRefreshTokenProvider<CampusCoursesUser>.ProviderName;
             });
 
             services.Configure<JwtTokenParameters>(configuration.GetSection(nameof(JwtTokenParameters)));
 
-            services.AddScoped<JwtTokenService<CampusCourseUser>>();
+            services.AddScoped<JwtTokenService<CampusCoursesUser>>();
 
         }
     }

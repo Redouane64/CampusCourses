@@ -33,10 +33,10 @@ namespace CampusCourses.WebApi.Identity.Commands
     public class LoginCommandHandler : IRequestHandler<LoginCommand, OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
 
-        private readonly JwtTokenService<CampusCourseUser> tokenService;
-        private readonly UserManager<CampusCourseUser> userManager;
+        private readonly JwtTokenService<CampusCoursesUser> tokenService;
+        private readonly UserManager<CampusCoursesUser> userManager;
 
-        public LoginCommandHandler(JwtTokenService<CampusCourseUser> tokenService, UserManager<CampusCourseUser> userManager)
+        public LoginCommandHandler(JwtTokenService<CampusCoursesUser> tokenService, UserManager<CampusCoursesUser> userManager)
         {
             this.tokenService = tokenService;
             this.userManager = userManager;

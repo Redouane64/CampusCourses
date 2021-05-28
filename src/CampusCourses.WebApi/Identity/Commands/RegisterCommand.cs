@@ -35,10 +35,10 @@ namespace CampusCourses.WebApi.Identity.Commands
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, OneOf<AuthenticationViewModel, ErrorViewModel>>
     {
-        private readonly JwtTokenService<CampusCourseUser> tokenService;
-        private readonly UserManager<CampusCourseUser> userManager;
+        private readonly JwtTokenService<CampusCoursesUser> tokenService;
+        private readonly UserManager<CampusCoursesUser> userManager;
 
-        public RegisterCommandHandler(JwtTokenService<CampusCourseUser> tokenService, UserManager<CampusCourseUser> userManager)
+        public RegisterCommandHandler(JwtTokenService<CampusCoursesUser> tokenService, UserManager<CampusCoursesUser> userManager)
         {
             this.tokenService = tokenService;
             this.userManager = userManager;
@@ -46,27 +46,21 @@ namespace CampusCourses.WebApi.Identity.Commands
 
         public async Task<OneOf<AuthenticationViewModel, ErrorViewModel>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var user = new CampusCourseUser
+            var user = new CampusCoursesUser
             {
                 Email = request.Email,
                 UserName = request.Email,
             };
 
             /* create user */
-            try
-            {
-                var createUser = await userManager.CreateAsync(user, request.Password);
+            var createUser = await userManager.CreateAsync(user, request.Password);
 
-                if (!createUser.Succeeded)
-                {
-                    var errors = createUser.Errors.Select(error => error.Description).ToArray();
-                    return new ErrorViewModel(IdentityErrorCodes.CannotCreateAccount, 401, errors);
-                }
-            }
-            catch (Exception)
+            if (!createUser.Succeeded)
             {
-                return new ErrorViewModel(CampusCoursesErrorCodes.InternalServerError, 500);
+                var errors = createUser.Errors.Select(error => error.Description).ToArray();
+                return new ErrorViewModel(IdentityErrorCodes.CannotCreateAccount, 401, errors);
             }
+
 
             /* assign role to user */
             try
