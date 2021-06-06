@@ -1,6 +1,6 @@
 using CampusCourses.Domain.Common;
 
-namespace CampusCourses.Domain.Identity
+namespace CampusCourses.Domain.Models
 {
     /// <summary>
     /// Represent a common user entity contract.

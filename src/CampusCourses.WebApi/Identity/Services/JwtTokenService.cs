@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-using CampusCourses.Domain.Identity;
+using CampusCourses.Domain.Models;
 using CampusCourses.WebApi.Identity.Extensions;
 using CampusCourses.WebApi.Identity.Infrastructure;
 

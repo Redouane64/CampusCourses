@@ -1,4 +1,4 @@
-using CampusCourses.Domain.Courses;
+using CampusCourses.Domain.Repositories;
 
 namespace CampusCourses.WebApi.Data
 {

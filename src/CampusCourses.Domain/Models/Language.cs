@@ -1,6 +1,6 @@
 using CampusCourses.Domain.Common;
 
-namespace CampusCourses.Domain.Courses
+namespace CampusCourses.Domain.Models
 {
     public sealed class Language : Entity
     {

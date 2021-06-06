@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CampusCourses.Domain.Common
 {
-    public interface IRepository<TEntity> where TEntity : Entity /* IAggregateRoot */
+    public interface IRepository<TEntity> where TEntity : Entity
     {
         Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);

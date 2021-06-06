@@ -2,7 +2,7 @@ using CampusCourses.Domain.Common;
 
 using System.Collections.Generic;
 
-namespace CampusCourses.Domain.Courses
+namespace CampusCourses.Domain.Models
 {
     /// <summary>
     /// Represents course prototype

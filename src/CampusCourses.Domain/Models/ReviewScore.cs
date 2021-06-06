@@ -1,4 +1,4 @@
-namespace CampusCourses.Domain.Courses
+namespace CampusCourses.Domain.Models
 {
     /// <summary>
     /// Represents review score

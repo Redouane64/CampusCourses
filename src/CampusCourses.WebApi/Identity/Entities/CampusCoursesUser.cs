@@ -1,4 +1,5 @@
-using CampusCourses.Domain.Identity;
+using CampusCourses.Domain.Models;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace CampusCourses.WebApi.Identity.Entities

@@ -1,7 +1,8 @@
 using System;
+
 using CampusCourses.Domain.Common;
 
-namespace CampusCourses.Domain.Courses
+namespace CampusCourses.Domain.Models
 {
     /// <summary>
     /// Represents notification entity
