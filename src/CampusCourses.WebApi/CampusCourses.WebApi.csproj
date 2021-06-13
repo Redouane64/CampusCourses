@@ -20,12 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Courses\Data\" />
-    <Folder Include="Identity\Infrastructure\" />
-    <Folder Include="Identity\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CampusCourses.Domain\CampusCourses.Domain.csproj" />
   </ItemGroup>
 
